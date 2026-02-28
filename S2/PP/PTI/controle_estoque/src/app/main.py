@@ -3,6 +3,7 @@ from .utils.console import carregamento_pontos, limpar_console
 from .services.produtos import ProdutoService
 from .repositories.produtos import ProdutoRepository
 from .utils.console import limpar_console
+from .models.produto import Produto
 
 # MVP
 """ Cadastrar Produto
@@ -20,11 +21,13 @@ from .utils.console import limpar_console
 """
 
 """ To-do
-Fazer função de carregamento visual com pontos
-Menu ser selecionável via teclado setas para mover e espaço para confirmar
+- Fazer função de carregamento visual com pontos
+- Menu ser selecionável via teclado setas para mover e espaço para confirmar
+- Formatar os produtos em tabelas
+- Se entrar código repetido solicitar novamente os dados ao usuário
 
  --- Listagem
- Listar por ordem.... tipo por nome, por preço, etc
+- Listar por ordem.... tipo por nome, por preço, etc
  
 """
 
@@ -33,25 +36,57 @@ service = ProdutoService(repo)
 
 menu_ativo = True
 res_usuario = ''
-# Funções de cadastro - mover para controller?
 
+# Funções de cadastro - mover para controller?
+def estoque_atual(produtos : list[Produto]) -> int:
+    total_estoque = 0
+    
+    for p in produtos:
+        total_estoque +=  p.quantidade
+        
+    return total_estoque
 
 def iniciar_cadastro():
     limpar_console()
-
     produto = {}
-
     print("----> Cadastro de novo produto iniciado <----")
     print("Insira as informações do produto")
     produto["codigo"] = input("Digite o código: ")
     produto["nome"] = input("Digite o nome: ")
+    
     # Precisa inserir com ponto pra dar certo
     # adaptar para o usuário colocar virgula e funcionar
-    produto["preco"] = float(input("Digite o preço: "))
+    preco = input("Digite o preço(ex: 10,50): ")
+    # Slicing [start:stop:step]
+    preco_invertido = preco[::-1]
+    print("preço invertido", preco_invertido)
+    preco_invertido = preco_invertido.replace(".", "") 
+    preco = preco_invertido.replace(",",".", 1)
+    
+    preco = preco[::-1]
+    
+    print("Preço verificado ->",preco)
+    
+    produto["preco"] = float(preco)
     produto["quantidade"] = int(input("Digite a quantidade em estoque: "))
 
     # Depois de tratar os inputs
     service.cadastrar(**produto)
+    
+    
+def listagem_produtos():
+    limpar_console()
+    print("----> Produtos cadastrados <----")
+    produtos = service.listar_todos()
+    if not produtos:
+        print("Não há produtos registrados")
+    else: 
+        for prod in produtos:
+            print(prod)
+    
+    estoque_total = estoque_atual(produtos)
+    print("Estoque total:", estoque_total)
+    print("\n")
 
 
 def menu(menu_ativo):
@@ -76,7 +111,7 @@ def menu(menu_ativo):
 
                 break
             case "1":
-                print("Aqui vai ficar a listagem de prods")
+                listagem_produtos()
             case "2":
                 iniciar_cadastro()
             case _:

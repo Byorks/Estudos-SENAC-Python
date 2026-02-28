@@ -16,3 +16,4 @@ def carregamento_pontos():
     time.sleep(.5)
     print(".")
     time.sleep(.5)
+    print("\033[A                             \033[A")

@@ -21,6 +21,13 @@ class ProdutoService:
         # Ou se encontrar, dá erro
         
         # verificar se o preço ou estoque não está negativo
+        if preco < 0:
+            raise ValueError("Preços negativos não são permitidos.")
+        
+        if quantidade < 0:
+            raise ValueError("Quantidades negativas não são permitidas.")
+        
+        
         
         # Após verificação montar entidade
         novo_produto = Produto (
