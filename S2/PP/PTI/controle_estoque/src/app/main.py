@@ -1,0 +1,62 @@
+# Agora os imports funcionam
+from app import (carregamento_pontos, limpar_console, iniciar_cadastro)
+from app.services import (cadastrar_produto, listar_produtos)
+
+# MVP
+""" Cadastrar Produto
+    Permitir o cadastro de um novo produto no 
+    estoque, solicitando ao usuário as informações necessárias. O 
+    sistema não deve permitir o cadastro de produtos com código 
+    duplicado e deve validar os dados informados, garantindo que 
+    o preço e a quantidade não sejam negativos. 
+"""
+""" Calcular o Total de Produtos em Estoque
+    Calcular e exibir a 
+    quantidade total de produtos armazenados no estoque, 
+    considerando a soma das quantidades de todos os produtos 
+    cadastrados. 
+"""
+
+""" To-do
+Fazer função de carregamento visual com pontos
+Menu ser selecionável via teclado setas para mover e espaço para confirmar
+
+ --- Listagem
+ Listar por ordem.... tipo por nome, por preço, etc
+ 
+"""
+
+menu_ativo = True
+res_usuario = ''
+
+
+def menu(menu_ativo):
+    # To-do legal -> Ser selecionável via teclado setas para mover e espaço para confirmar
+    # Colocar comando para fechar o menu
+    while (menu_ativo):
+        print("------ Menu de acesso ------")
+        # Ao ver produtos temos que ter uma funcionalidade de calcular quantos prods tem em estoque
+        print("- Ver produtos [1]")
+        print("- Cadastrar produtos [2]")
+        print("- Fechar menu digite -> Fechar")
+
+        res_usuario = input("Digite a opção desejada: ")
+
+        print(res_usuario)
+
+        match res_usuario.lower():
+            case "fechar":
+                menu_ativo = False
+                carregamento_pontos()
+                print("Menu encerrado")
+
+                break
+            case "1":
+                listar_produtos()
+            case "2":
+                iniciar_cadastro()
+            case _:
+                print("Digite uma opção valida")
+
+
+menu(menu_ativo)
