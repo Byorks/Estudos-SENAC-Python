@@ -3,9 +3,9 @@ import uuid
 from datetime import date
 
 # @dataclass(frozen=True) frozen para tornar a entidade imutável
-@dataclass
+@dataclass (frozen=True) # Não permite alterações na entidade
 class Produto:
-    id: str = field(default_factory=lambda: str(uuid.uuid4()), init=False)
+    id: uuid.UUID = field(default_factory=uuid.uuid4, init=False) # o init=False diz que ao criar um prod ele não precisa passar o argumento id
     codigo: str
     nome: str
     preco: float

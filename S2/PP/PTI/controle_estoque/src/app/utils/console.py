@@ -7,10 +7,12 @@ def limpar_console():
 
 
 def carregamento_pontos():
-    time.sleep(.5)
     print("...")
-    time.sleep(1)
+    time.sleep(.5)
+    print("\033[A                             \033[A")
     print("..")
-    time.sleep(1)
+    time.sleep(.5)
+    print("\033[A                             \033[A")
+    time.sleep(.5)
     print(".")
-    time.sleep(1)
+    time.sleep(.5)
